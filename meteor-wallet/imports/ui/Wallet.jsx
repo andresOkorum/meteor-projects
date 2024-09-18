@@ -5,16 +5,19 @@ import { WalletsCollection } from "../api/collections/WalletsCollection";
 import { Modal } from "./components/Modal";
 import { Loading } from "./components/Loading";
 import { SelectContact } from "./components/SelectContact";
+import { useLoggedUser } from 'meteor/quave:logged-user-react';
 
 export const Wallet = () => {
+  const { loggedUser } = useLoggedUser();
+
   const [open, setOpen] = useState(false);
   const [isTransferring, setIsTransferring] = useState(false);
   const [amount, setAmount] = useState("");
-  const [destinationWallet, setDestinationWallet] = useState({});
+  const [destinationContact, setdestinationContact] = useState({});
   const [errorMessage, setErrorMessage] = useState("");
 
-  const isLoadingWallets = useSubscribe('wallets');
-  const isLoadingContacts = useSubscribe('contacts');
+  const isLoadingWallets = useSubscribe('myWallet');
+  const isLoadingContacts = useSubscribe('myContacts');
   const contacts = useFind (() => {
     return ContactsCollection.find({ archived: { $ne: true } }, { sort: { createdAt: -1 }})
   });
@@ -25,7 +28,7 @@ export const Wallet = () => {
     Meteor.call('transactions.insert', { 
       isTransferring, 
       sourceWalletId: wallet._id, 
-      destinationWalletId: destinationWallet?.walletId || "", 
+      destinationContactId: destinationContact?.walletId || "", 
       amount: Number(amount),
     }, (errorResponse) => {
       if (errorResponse) {
@@ -38,7 +41,7 @@ export const Wallet = () => {
         }
       } else {
         setOpen(false);
-        setDestinationWallet({});
+        setdestinationContact({});
         setAmount(0);
         setErrorMessage("");
       }
@@ -53,9 +56,12 @@ export const Wallet = () => {
     <><div className="flex font-sans shadow-md my-10">
       <form className="flex-auto p-6">
         <div className="flex flex-wrap">
-          <div className="w-full flex-none text-sm font-medium text-gray-500">
-            Main account
+          <div className="w-full flex-none text-sm font-medium text-gray-500 mt-2">
+            Email:
           </div>
+          <h1 className="flex-auto text-lg font-semibold text-gray-700">
+            {loggedUser?.email}
+          </h1>
           <div className="w-full flex-none text-sm font-medium text-gray-500 mt-2">
             Wallet ID:
           </div>
@@ -108,8 +114,8 @@ export const Wallet = () => {
               <SelectContact 
                 title="Destination contact"
                 contacts={contacts}
-                contact={destinationWallet}
-                setContact={setDestinationWallet}
+                contact={destinationContact}
+                setContact={setdestinationContact}
               />
             </div>
           )}
