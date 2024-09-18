@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Modal } from "./components/Modal";
-import { SelectContact } from "./components/SelectContact";
-import { ContactsCollection } from "../api/ContactsCollection";
 import { useSubscribe, useFind } from 'meteor/react-meteor-data';
+import { ContactsCollection } from "../api/collections/ContactsCollection";
+import { WalletsCollection } from "../api/collections/WalletsCollection";
+import { Modal } from "./components/Modal";
 import { Loading } from "./components/Loading";
-import { WalletsCollection } from "../api/WalletsCollection";
+import { SelectContact } from "./components/SelectContact";
 
 export const Wallet = () => {
   const [open, setOpen] = useState(false);

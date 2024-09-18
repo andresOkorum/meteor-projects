@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
-import { TransactionsCollection } from './TransactionsCollection';
+import { TransactionsCollection, ADD_TYPE, TRANSFER_TYPE } from '../collections/TransactionsCollection';
 
 Meteor.methods({
   'transactions.insert'(args) {
@@ -29,7 +29,7 @@ Meteor.methods({
       amount 
     } = args;
     return TransactionsCollection.insert({
-      type: isTransferring? 'TRANSFER' : 'ADD',
+      type: isTransferring? TRANSFER_TYPE : ADD_TYPE,
       sourceWalletId,
       destinationWalletId: isTransferring? destinationWalletId : null,
       amount,
