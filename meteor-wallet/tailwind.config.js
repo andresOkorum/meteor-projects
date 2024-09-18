@@ -1,9 +1,7 @@
 module.exports = {
-  purge: [],
-  darkMode: false, // or 'media' or 'class'
-  theme: {
-    extend: {},
-  },
-  variants: {},
-  plugins: [],
+  content: [
+    './client/**/*.{js,jsx,ts,tsx}',
+    './imports/**/*.{js,jsx,ts,tsx}',
+    './client/*.html'
+  ]
 }
