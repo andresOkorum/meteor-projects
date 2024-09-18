@@ -1,5 +1,5 @@
 import React from "react";
-import { CheckCircleIcon } from '@heroicons/react/solid'
+import CheckCircleIcon from '@heroicons/react/24/solid/CheckCircleIcon';
 
 export const SuccessAlert = ({ message }) => {
   return (
