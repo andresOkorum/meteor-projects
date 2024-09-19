@@ -5,5 +5,7 @@ import '../imports/api/methods/ContactsMethods';
 import '../imports/api/methods/TransactionsMethods';
 import '../imports/api/publications/ContactsPublications';
 import '../imports/api/publications/WalletsPublication';
+import '../imports/api/methods/RolesMethods';
 import '../infra/CustomError';
 import '../infra/accounts';
+import '../infra/roles';

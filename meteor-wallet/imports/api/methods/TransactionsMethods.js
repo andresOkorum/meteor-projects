@@ -1,6 +1,9 @@
 import { Meteor } from 'meteor/meteor';
+import { check } from 'meteor/check';
 import SimpleSchema from 'simpl-schema';
 import { TransactionsCollection, ADD_TYPE, TRANSFER_TYPE } from '../collections/TransactionsCollection';
+import { Roles } from 'meteor/alanning:roles';
+import { WalletRoles } from '../../../infra/WalletRoles';
 
 Meteor.methods({
   'transactions.insert'(args) {
@@ -22,15 +25,15 @@ Meteor.methods({
       amount: {
         type: Number,
         min: 1,
-      }
+      },
     });
     const cleanArgs = schema.clean(args)
     schema.validate(cleanArgs);
-    const { 
-      isTransferring, 
-      sourceWalletId, 
-      destinationContactId, 
-      amount 
+    const {
+      isTransferring,
+      sourceWalletId,
+      destinationContactId,
+      amount,
     } = args;
     return TransactionsCollection.insert({
       type: isTransferring? TRANSFER_TYPE : ADD_TYPE,
@@ -40,5 +43,18 @@ Meteor.methods({
       createdAt: new Date(),
       userId,
     });
-  }
-})
+  },
+  'transactions.remove'(transactionId) {
+    const { userId } = this;
+    if (!userId) {
+      throw Meteor.Error('Access denied');
+    }
+    check(transactionId, String);
+
+    if (!Roles.userIsInRole(userId, WalletRoles.ADMIN)) {
+      throw new Error('Permission denied!');
+    }
+
+    return TransactionsCollection.remove(transactionId);
+  },
+});
