@@ -26,3 +26,4 @@ quave:logged-user-react
 quave:alert-react-tailwind
 alanning:roles@3.4.0
 quave:accounts-passwordless-react@2.0.0
+accounts-google@1.4.0
