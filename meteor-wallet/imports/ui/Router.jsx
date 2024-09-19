@@ -4,7 +4,6 @@ import { Home } from './Home';
 import { NotFound } from './NotFound';
 import { SignUp } from './SignUp';
 import { RoutePaths } from './RoutePaths';
-import { ForgotPassword } from './ForgotPassword';
 import { LoggedUserOnly } from './components/LoggedUserOnly';
 import { AnonymousOnly } from './components/AnonymousOnly';
 import { RemoveTransaction } from './RemoveTransaction';
@@ -25,14 +24,6 @@ export const Router = () => (
       element={
         <AnonymousOnly>
           <SignUp />
-        </AnonymousOnly>
-      }
-    />
-    <Route
-      path={RoutePaths.FORGOT_PASSWORD}
-      element={
-        <AnonymousOnly>
-          <ForgotPassword />
         </AnonymousOnly>
       }
     />
